@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTech - Backoffice Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="proj.css">
+    
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <i class="fas fa-film logo-icon"></i>
+                <div>
+                    <h3>CineTech</h3>
+                    <p class="mb-0">Backoffice Dashboard</p>
+                </div>
+            </div>
+        </div>
+        
+        <ul class="list-unstyled components">
+            <li>
+                <a href="#" class="active" id="dashboard-link">
+                    <i class="fas fa-tachometer-alt"></i> 
+                    <span>Dashboard</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="films-link">
+                    <i class="fas fa-video"></i> 
+                    <span>Films</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="directors-link">
+                    <i class="fas fa-user-tie"></i> 
+                    <span>Réalisateurs</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="api-link">
+                    <i class="fas fa-database"></i> 
+                    <span>API Films</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="stats-link">
+                    <i class="fas fa-chart-bar"></i> 
+                    <span>Statistiques</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+            <li class="mt-4">
+                <a href="#" id="settings-link">
+                    <i class="fas fa-cog"></i> 
+                    <span>Paramètres</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+
+
+            </div>
+            <div class="text-center p-3">
+                <small>© 2025-2026 CineTech Dashboard</small>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="navbar-left">
+            <button class="btn btn-outline-secondary d-md-none" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="breadcrumb-container">
+                <h4 class="d-inline" id="current-section">Dashboard</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#" id="dashboard-breadcrumb">Dashboard</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="navbar-right">
+            <div class="search-container">
+                <input type="text" class="form-control" placeholder="Rechercher..." id="global-search">
+                <button class="btn btn-search" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="notifications">
+                <button class="btn btn-notification" id="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <div class="notification-dropdown" id="notification-dropdown">
+                    <div class="notification-header">
+                        <h6>Notifications</h6>
+                        <a href="#" class="mark-all-read">Tout marquer comme lu</a>
+                    </div>
+                    <div class="notification-list">
+                        <div class="notification-item unread">
+                            <i class="fas fa-film text-primary"></i>
+                            <div>
+                                <p>Nouveau film ajouté: "Dune: Part Two"</p>
+                                <small>Il y a 2 minutes</small>
+                            </div>
+                        </div>
+                        <div class="notification-item unread">
+                            <i class="fas fa-chart-line text-success"></i>
+                            <div>
+                                <p>Votre base dépasse 50 films</p>
+                                <small>Il y a 1 heure</small>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-user-tie text-warning"></i>
+                            <div>
+                                <p>Nouveau réalisateur ajouté</p>
+                                <small>Il y a 3 heures</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#">Voir toutes les notifications</a>
+                    </div>
+                </div>
+            </div>
+            
+
+    </nav>
+    
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <div class="section-header">
+                <h2>Tableau de Bord</h2>
+                <div class="header-actions">
+                    <button class="btn btn-refresh" id="refresh-dashboard">
+                        <i class="fas fa-sync-alt"></i> Actualiser
+                    </button>
+                    <div class="date-filter">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Aujourd'hui</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- KPI Cards -->
+            <div class="row mb-4 kpi-container">
+                <div class="col-md-3 col-sm-6">
+                    <div class="kpi-card film-count">
+                        <div class="kpi-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpi-films">0</div>
+                            <div class="kpi-label">Films dans la base</div>
+                        </div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i> 12%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="kpi-card director-count">
+                        <div class="kpi-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpi-directors">0</div>
+                            <div class="kpi-label">Réalisateurs</div>
+                        </div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i> 8%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="kpi-card rating-avg">
+                        <div class="kpi-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpi-avg-rating">0.0</div>
+                            <div class="kpi-label">Note moyenne</div>
+                        </div>
+                        <div class="kpi-trend down">
+                            <i class="fas fa-arrow-down"></i> 2%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="kpi-card duration-total">
+                        <div class="kpi-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpi-total-duration">0</div>
+                            <div class="kpi-label">Heures totales</div>
+                        </div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i> 15%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="fas fa-chart-line me-2"></i> Évolution des ajouts de films</h5>
+                            <div class="chart-actions">
+                                <button class="btn-chart-action active" data-period="month">Mois</button>
+                                <button class="btn-chart-action" data-period="year">Année</button>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="filmsChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="fas fa-chart-pie me-2"></i> Films par réalisateur</h5>
+                            <div class="chart-actions">
+                                <button class="btn-chart-action" id="directors-chart-details">Détails</button>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="directorsChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Films -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div>
+                        <h5><i class="fas fa-list me-2"></i> Films récemment ajoutés</h5>
+                        <p class="text-muted mb-0">Les 5 derniers films ajoutés à votre base</p>
+                    </div>
+                    <a href="#" class="btn btn-primary" id="view-all-films">
+                        <i class="fas fa-eye me-1"></i> Voir tous
+                    </a>
+                </div>
+                <div class="table-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="recent-films-table">
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Réalisateur</th>
+                                    <th>Année</th>
+                                    <th>Genre</th>
+                                    <th>Durée</th>
+                                    <th>Note</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-films-body">
+                                <!-- Les films récents seront insérés ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-footer">
+                    <div class="table-stats">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Cliquez sur l'icône <i class="fas fa-eye"></i> pour voir les détails d'un film</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Films Section (Module 1: CRUD Complet) -->
+        <section id="films-section" class="content-section">
+            <div class="section-header">
+                <h2>Gestion des Films</h2>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="add-film-btn">
+                        <i class="fas fa-plus me-2"></i> Ajouter un film
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search and Filter Bar -->
+            <div class="filter-card">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group search-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Rechercher un film..." id="film-search">
+                            <button class="btn btn-outline-secondary" type="button" id="film-search-btn">
+                                Rechercher
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-filter"></i>
+                            </span>
+                            <select class="form-select" id="film-genre-filter">
+                                <option value="">Tous les genres</option>
+                                <option value="Action">Action</option>
+                                <option value="Drame">Drame</option>
+                                <option value="Comédie">Comédie</option>
+                                <option value="Science-fiction">Science-fiction</option>
+                                <option value="Thriller">Thriller</option>
+                                <option value="Horreur">Horreur</option>
+                                <option value="Animation">Animation</option>
+                                <option value="Documentaire">Documentaire</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                            <select class="form-select" id="film-sort">
+                                <option value="title-asc">Titre (A-Z)</option>
+                                <option value="title-desc">Titre (Z-A)</option>
+                                <option value="year-asc">Année (Plus ancien)</option>
+                                <option value="year-desc">Année (Plus récent)</option>
+                                <option value="rating-desc">Note (Haute à basse)</option>
+                                <option value="rating-asc">Note (Basse à haute)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View Toggle -->
+            <div class="view-toggle mb-4">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary active" id="view-table-btn">
+                        <i class="fas fa-table"></i> Tableau
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="view-cards-btn">
+                        <i class="fas fa-th-large"></i> Cartes
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="view-compact-btn">
+                        <i class="fas fa-list"></i> Compact
+                    </button>
+                </div>
+                <div class="view-stats">
+                    <span id="films-count">0</span> films trouvés
+                </div>
+            </div>
+            
+            <!-- Films Table View -->
+            <div id="films-table-view">
+                <div class="table-card">
+                    <div class="table-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="films-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="table-checkbox">
+                                                <input type="checkbox" id="select-all-films">
+                                            </div>
+                                        </th>
+                                        <th>Titre</th>
+                                        <th>Réalisateur</th>
+                                        <th>Année</th>
+                                        <th>Genre</th>
+                                        <th>Durée</th>
+                                        <th>Note</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="films-table-body">
+                                    <!-- Les films seront insérés ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-footer">
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-outline-danger" id="delete-selected-films">
+                                <i class="fas fa-trash me-1"></i> Supprimer la sélection
+                            </button>
+                        </div>
+                        <div class="table-pagination">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Films Cards View -->
+            <div id="films-cards-view" style="display: none;">
+                <div class="row" id="films-cards-container">
+                    <!-- Les cartes de films seront insérées ici -->
+                </div>
+            </div>
+            
+            <!-- Films Compact View -->
+            <div id="films-compact-view" style="display: none;">
+                <div class="table-card">
+                    <div class="table-body">
+                        <div class="list-group" id="films-compact-container">
+                            <!-- La liste compacte sera insérée ici -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Directors Section (Module 2: CRUD Light) -->
+        <section id="directors-section" class="content-section">
+            <div class="section-header">
+                <h2>Gestion des Réalisateurs</h2>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="add-director-btn">
+                        <i class="fas fa-plus me-2"></i> Ajouter un réalisateur
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Directors Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div>
+                        <h5>Liste des réalisateurs</h5>
+                        <p class="text-muted mb-0">Gérez les réalisateurs de votre base de films</p>
+                    </div>
+                    <div class="input-group search-group-sm">
+                        <input type="text" class="form-control" placeholder="Rechercher un réalisateur..." id="director-search">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="directors-table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Nationalité</th>
+                                    <th>Date de naissance</th>
+                                    <th>Films</th>
+                                    <th>Note moyenne</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="directors-table-body">
+                                <!-- Les réalisateurs seront insérés ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-footer">
+                    <div class="table-stats">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Les réalisateurs avec des films associés ne peuvent pas être supprimés</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- API Films Section -->
+        <section id="api-section" class="content-section">
+            <div class="section-header">
+                <h2>Recherche de Films via API</h2>
+                <div class="header-actions">
+                    <div class="api-status">
+                        <span class="status-indicator active"></span>
+                        <span>API OMDB Connectée</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- API Search -->
+            <div class="search-card mb-4">
+                <div class="search-header">
+                    <i class="fas fa-search me-2"></i>
+                    <h5>Rechercher des films via l'API OMDB</h5>
+                </div>
+                <div class="search-body">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-film"></i>
+                                </span>
+                                <input type="text" class="form-control" id="api-search-input" placeholder="Rechercher un film (ex: 'Inception', 'The Godfather')">
+                                <button class="btn btn-primary" id="api-search-btn">
+                                    <i class="fas fa-search me-2"></i> Rechercher
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" id="api-search-type">
+                                <option value="">Tous les types</option>
+                                <option value="movie">Film</option>
+                                <option value="series">Série</option>
+                                <option value="episode">Épisode</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search-info">
+                        <i class="fas fa-info-circle"></i>
+                        Cette fonctionnalité utilise l'API OMDB pour rechercher des films. Vous pouvez ensuite ajouter les films à votre base de données locale.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- API Results -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div>
+                        <h5><i class="fas fa-list me-2"></i> Résultats de recherche</h5>
+                        <p class="text-muted mb-0">Films trouvés via l'API OMDB</p>
+                    </div>
+                    <div class="search-results-count">
+                        <span id="api-results-count">0</span> résultat(s)
+                    </div>
+                </div>
+                <div class="table-body">
+                    <div id="api-results-container">
+                        <!-- Les résultats de l'API seront affichés ici -->
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <h5>Recherchez des films</h5>
+                            <p class="text-muted">Utilisez le champ de recherche pour trouver des films via l'API OMDB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Statistics Section -->
+        <section id="stats-section" class="content-section">
+            <div class="section-header">
+                <h2>Statistiques détaillées</h2>
+                <div class="header-actions">
+                    <button class="btn btn-outline-secondary" id="export-stats-btn">
+                        <i class="fas fa-download me-2"></i> Exporter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-oldest-year">0</div>
+                            <div class="stat-label">Plus ancien film</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-newest-year">0</div>
+                            <div class="stat-label">Plus récent film</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-avg-duration">0</div>
+                            <div class="stat-label">Durée moyenne</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-genres-count">0</div>
+                            <div class="stat-label">Genres différents</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Charts -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="fas fa-chart-bar me-2"></i> Films par année</h5>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="yearChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="fas fa-chart-pie me-2"></i> Répartition par genre</h5>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="genreChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="fas fa-star me-2"></i> Distribution des notes</h5>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="ratingChart" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="settings-section" class="content-section">
+            <div class="section-header">
+                <h2>Paramètres</h2>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="save-settings-btn">
+                        <i class="fas fa-save me-2"></i> Enregistrer
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Settings Tabs -->
+            <div class="settings-tabs mb-4">
+                <ul class="nav nav-tabs" id="settingsTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button">
+                            <i class="fas fa-cog me-2"></i> Général
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button">
+                            <i class="fas fa-database me-2"></i> Données
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="appearance-tab" data-bs-toggle="tab" data-bs-target="#appearance" type="button">
+                            <i class="fas fa-palette me-2"></i> Apparence
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="settingsTabContent">
+                    <!-- General Settings -->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                        <div class="settings-card">
+                            <h5 class="settings-title">Paramètres généraux</h5>
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="results-per-page" class="form-label">Résultats par page</label>
+                                        <p class="setting-description">Nombre d'éléments affichés par défaut dans les listes</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <select class="form-select" id="results-per-page" style="width: 100px;">
+                                            <option value="10">10</option>
+                                            <option value="25" selected>25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Notifications</label>
+                                        <p class="setting-description">Contrôlez les notifications que vous recevez</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="notifications-switch" checked>
+                                            <label class="form-check-label" for="notifications-switch">Activer les notifications</label>
+                                        </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" id="email-notifications-switch">
+                                            <label class="form-check-label" for="email-notifications-switch">Notifications par email</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Confirmation des actions</label>
+                                        <p class="setting-description">Demander confirmation avant les actions critiques</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="confirm-delete-switch" checked>
+                                            <label class="form-check-label" for="confirm-delete-switch">Confirmer la suppression</label>
+                                        </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" id="confirm-exit-switch">
+                                            <label class="form-check-label" for="confirm-exit-switch">Confirmer avant de quitter</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Settings -->
+                    <div class="tab-pane fade" id="data" role="tabpanel">
+                        <div class="settings-card">
+                            <h5 class="settings-title">Gestion des données</h5>
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Export des données</label>
+                                        <p class="setting-description">Exportez toutes vos données au format JSON</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <button class="btn btn-outline-primary" id="export-data-btn">
+                                            <i class="fas fa-download me-2"></i> Exporter les données
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Import des données</label>
+                                        <p class="setting-description">Importez des données depuis un fichier JSON</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <button class="btn btn-outline-warning" id="import-data-btn">
+                                            <i class="fas fa-upload me-2"></i> Importer des données
+                                        </button>
+                                        <input type="file" id="import-data-file" accept=".json" style="display: none;">
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Effacer toutes les données</label>
+                                        <p class="setting-description">Supprimez toutes les données de l'application (irréversible)</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <button class="btn btn-outline-danger" id="clear-data-btn" data-bs-toggle="modal" data-bs-target="#confirmClearModal">
+                                            <i class="fas fa-trash me-2"></i> Effacer toutes les données
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Statistiques de stockage</label>
+                                        <p class="setting-description">Informations sur l'utilisation du stockage local</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="storage-info">
+                                            <div class="storage-bar">
+                                                <div class="storage-progress" id="storage-progress" style="width: 25%"></div>
+                                            </div>
+                                            <div class="storage-stats">
+                                                <span id="storage-used">0.5 MB</span> utilisés sur <span id="storage-total">2 MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Appearance Settings -->
+                    <div class="tab-pane fade" id="appearance" role="tabpanel">
+                        <div class="settings-card">
+                            <h5 class="settings-title">Apparence et thème</h5>
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Mode d'affichage</label>
+                                        <p class="setting-description">Choisissez le thème de l'application</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="theme-selector">
+                                            <div class="theme-option active" data-theme="light">
+                                                <div class="theme-preview light"></div>
+                                                <span>Clair</span>
+                                            </div>
+                                            <div class="theme-option" data-theme="dark">
+                                                <div class="theme-preview dark"></div>
+                                                <span>Sombre</span>
+                                            </div>
+                                            <div class="theme-option" data-theme="auto">
+                                                <div class="theme-preview auto">
+                                                    <div class="half-light"></div>
+                                                    <div class="half-dark"></div>
+                                                </div>
+                                                <span>Auto</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Couleur principale</label>
+                                        <p class="setting-description">Choisissez la couleur d'accentuation de l'application</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="color-selector">
+                                            <div class="color-option active" data-color="#3498db" style="background-color: #3498db;"></div>
+                                            <div class="color-option" data-color="#2ecc71" style="background-color: #2ecc71;"></div>
+                                            <div class="color-option" data-color="#e74c3c" style="background-color: #e74c3c;"></div>
+                                            <div class="color-option" data-color="#9b59b6" style="background-color: #9b59b6;"></div>
+                                            <div class="color-option" data-color="#f39c12" style="background-color: #f39c12;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label class="form-label">Animations</label>
+                                        <p class="setting-description">Contrôlez les animations dans l'interface</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="animations-switch" checked>
+                                            <label class="form-check-label" for="animations-switch">Activer les animations</label>
+                                        </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" id="reduce-motion-switch">
+                                            <label class="form-check-label" for="reduce-motion-switch">Réduire les animations</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toast-container">
+        <!-- Toasts will be inserted here -->
+    </div>
+    
+    <!-- Modals -->
+    
+    <!-- Add/Edit Film Modal -->
+    <div class="modal fade" id="filmModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filmModalTitle">Ajouter un film</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="film-form">
+                        <input type="hidden" id="film-id">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="film-title" class="form-label">Titre *</label>
+                                <input type="text" class="form-control" id="film-title" required>
+                                <div class="invalid-feedback">Veuillez saisir un titre.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="film-director" class="form-label">Réalisateur *</label>
+                                <select class="form-select" id="film-director" required>
+                                    <!-- Options will be populated from directors data -->
+                                </select>
+                                <div class="invalid-feedback">Veuillez sélectionner un réalisateur.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="film-year" class="form-label">Année *</label>
+                                <input type="number" class="form-control" id="film-year" min="1900" max="2025" required>
+                                <div class="invalid-feedback">Veuillez saisir une année valide.</div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="film-genre" class="form-label">Genre *</label>
+                                <select class="form-select" id="film-genre" required>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Action">Action</option>
+                                    <option value="Drame">Drame</option>
+                                    <option value="Comédie">Comédie</option>
+                                    <option value="Science-fiction">Science-fiction</option>
+                                    <option value="Thriller">Thriller</option>
+                                    <option value="Horreur">Horreur</option>
+                                    <option value="Animation">Animation</option>
+                                    <option value="Documentaire">Documentaire</option>
+                                    <option value="Aventure">Aventure</option>
+                                    <option value="Fantastique">Fantastique</option>
+                                </select>
+                                <div class="invalid-feedback">Veuillez sélectionner un genre.</div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="film-duration" class="form-label">Durée (minutes) *</label>
+                                <input type="number" class="form-control" id="film-duration" min="1" max="500" required>
+                                <div class="invalid-feedback">Veuillez saisir une durée valide.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="film-rating" class="form-label">Note (0-10) *</label>
+                                <input type="number" class="form-control" id="film-rating" min="0" max="10" step="0.1" required>
+                                <div class="invalid-feedback">Veuillez saisir une note entre 0 et 10.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="film-poster" class="form-label">URL de l'affiche</label>
+                                <input type="text" class="form-control" id="film-poster" placeholder="https://exemple.com/poster.jpg">
+                                <small class="text-muted">Laisser vide pour utiliser une image par défaut</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="film-synopsis" class="form-label">Synopsis</label>
+                            <textarea class="form-control" id="film-synopsis" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="save-film-btn">
+                        <span id="save-film-text">Enregistrer</span>
+                        <div class="spinner-border spinner-border-sm ms-2 d-none" role="status" id="film-saving-spinner">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Director Modal -->
+    <div class="modal fade" id="directorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="directorModalTitle">Ajouter un réalisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="director-form">
+                        <input type="hidden" id="director-id">
+                        <div class="mb-3">
+                            <label for="director-name" class="form-label">Nom complet *</label>
+                            <input type="text" class="form-control" id="director-name" required>
+                            <div class="invalid-feedback">Veuillez saisir un nom.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="director-nationality" class="form-label">Nationalité</label>
+                            <input type="text" class="form-control" id="director-nationality" placeholder="ex: Américain, Français...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="director-birthdate" class="form-label">Date de naissance</label>
+                            <input type="date" class="form-control" id="director-birthdate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="director-bio" class="form-label">Biographie</label>
+                            <textarea class="form-control" id="director-bio" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="save-director-btn">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation de suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="delete-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <p id="delete-confirm-text" class="text-center">Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Clear Data Confirmation Modal -->
+    <div class="modal fade" id="confirmClearModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="delete-icon danger">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <p class="text-center">Êtes-vous sûr de vouloir effacer toutes les données ? Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirm-clear-btn">Tout effacer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Film Detail Modal -->
+    <div class="modal fade" id="filmDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="film-detail-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="film-poster-container">
+                                <img id="film-detail-poster" src="https://via.placeholder.com/300x450?text=Poster+non+disponible" class="film-poster" alt="Affiche du film">
+                                <div class="film-rating-badge" id="film-detail-rating-badge">
+                                    <i class="fas fa-star"></i>
+                                    <span id="film-detail-rating-value">0.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="film-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Titre :</span>
+                                    <span class="detail-value" id="film-detail-title-text"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Réalisateur :</span>
+                                    <span class="detail-value" id="film-detail-director"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Année :</span>
+                                    <span class="detail-value" id="film-detail-year"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Genre :</span>
+                                    <span class="detail-value">
+                                        <span class="genre-badge" id="film-detail-genre"></span>
+                                    </span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Durée :</span>
+                                    <span class="detail-value" id="film-detail-duration"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Synopsis :</span>
+                                    <div class="detail-value synopsis" id="film-detail-synopsis"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" id="edit-film-from-detail">
+                        <i class="fas fa-edit me-1"></i> Modifier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Chargement...</p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript personnalisé -->
+    <script src="proj.js"></script>
+</body>
+</html>
